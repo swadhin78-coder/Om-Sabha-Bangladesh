@@ -1,0 +1,284 @@
+/* ==================================== */
+/* CSS Variables (Theme)       */
+/* ==================================== */
+/* এই ভেরিয়েবলগুলো আপনার main style.css থেকে কপি করা উচিত */
+:root {
+    --primary-color: #3f1e00;       /* গাঢ় বাদামী (উদাহরণ) */
+    --secondary-color: #f4e9d7;     /* হালকা ক্রিম (উদাহরণ) */
+    --accent-color: #5d4037;        /* কফি/বাদামী টেক্সট (উদাহরণ) */
+    --highlight-color: #ffb300;     /* উজ্জ্বল কমলা/হলুদ (হাইলাইট) */
+    --white: #ffffff;
+    --text-color: #333333;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+/* ==================================== */
+/* Global Reset             */
+/* ==================================== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--secondary-color);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.content-section {
+    padding: 40px 0;
+}
+
+.text-center {
+    text-align: center;
+}
+
+
+/* ==================================== */
+/* Header Style (Minimal for daily-message.html) */
+/* ==================================== */
+#main-header {
+    background-color: var(--primary-color);
+    color: var(--white);
+    padding: 15px 0;
+    box-shadow: 0 4px 8px var(--shadow-color);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+#full-nav a {
+    color: var(--white);
+    text-decoration: none;
+    margin-left: 25px;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+#full-nav a:hover {
+    color: var(--highlight-color);
+}
+
+.menu-toggle {
+    display: none; 
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+/* ==================================== */
+/* Daily Message Page Style     */
+/* ==================================== */
+
+/* Keyframes for Glow Effect */
+@keyframes pulseGlow {
+    0% {
+        box-shadow: 0 0 10px rgba(255, 179, 0, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 30px rgba(255, 179, 0, 0.8), 0 0 5px rgba(255, 179, 0, 0.6); /* উজ্জ্বল আলো */
+    }
+    100% {
+        box-shadow: 0 0 10px rgba(255, 179, 0, 0.4);
+    }
+}
+
+
+.page-content {
+    padding-top: 1px; /* মার্জিন কলাপস প্রতিরোধ */
+}
+
+/* Hero Section */
+#daily-hero {
+    padding: 60px 5%;
+    background-color: var(--secondary-color);
+}
+
+#daily-hero h1 {
+    color: var(--primary-color); 
+    font-size: 3rem;
+    margin-bottom: 10px;
+}
+
+/* বার্তার মূল সেকশন স্টাইল */
+.daily-article-section {
+    padding: 50px 5%;
+    overflow: hidden; 
+    border-bottom: 1px solid var(--accent-color);
+    transition: all 0.3s ease;
+}
+
+.daily-article-section:nth-child(even) { 
+    background-color: var(--secondary-color);
+}
+.daily-article-section:nth-child(odd) {
+    background-color: var(--white);
+}
+
+.daily-article-section.bg-secondary {
+    background-color: var(--secondary-color);
+}
+
+.daily-article-section:last-child {
+    border-bottom: none;
+}
+
+/* --- বর্তমান দিনের বার্তা (JS দ্বারা .today ক্লাস যুক্ত হয়) --- */
+.daily-article-section.today {
+    background-color: var(--white) !important; 
+    border: 3px solid var(--highlight-color);
+    /* GLOW/PULSE ইফেক্ট */
+    animation: pulseGlow 2.5s infinite ease-in-out; 
+    
+    padding: 60px 5%; 
+    margin-bottom: 30px;
+    order: -1; 
+}
+
+.daily-article-section.today h2 {
+    color: var(--primary-color);
+    border-bottom: 3px solid var(--highlight-color);
+    padding-bottom: 8px;
+    margin-bottom: 20px;
+}
+
+/* তারিখ দেখানোর স্টাইল */
+.message-date {
+    display: block;
+    font-size: 0.95rem;
+    color: var(--accent-color);
+    margin-bottom: 15px;
+    font-style: italic;
+    font-weight: 500;
+    text-align: right;
+    padding-right: 15px;
+}
+
+/* কন্টেন্ট ধারক */
+.article-content {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.article-content h2 {
+    color: var(--accent-color);
+    margin-bottom: 15px;
+}
+
+.article-content p {
+    line-height: 1.8;
+    margin-bottom: 15px;
+    text-align: justify;
+    font-size: 1rem;
+}
+
+/* ছবি ধারক */
+.article-image-container {
+    width: 40%; 
+    margin: 10px 0;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.article-image-container img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+}
+
+/* ডানদিকে ছবি (ফ্লোটিং) */
+.article-image-container.right-img {
+    float: right;
+    margin-left: 25px;
+}
+
+/* বামদিকে ছবি (ফ্লোটিং) */
+.article-image-container.left-img {
+    float: left;
+    margin-right: 25px;
+}
+
+
+/* ==================================== */
+/* Footer Style             */
+/* ==================================== */
+footer {
+    padding: 20px 0;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+
+/* ==================================== */
+/* Media Queries (Mobile)      */
+/* ==================================== */
+@media (max-width: 768px) {
+    /* Header */
+    #full-nav {
+        display: none; 
+    }
+    .menu-toggle {
+        display: block;
+    }
+    .logo {
+        font-size: 1.3rem;
+    }
+
+    /* Hero Section */
+    #daily-hero h1 {
+        font-size: 2rem;
+    }
+    
+    /* আর্টিকেল সেকশন */
+    .daily-article-section, .daily-article-section.today {
+        padding: 30px 5%;
+        margin-bottom: 10px;
+        border: none; 
+    }
+    .daily-article-section.today {
+        margin-bottom: 20px;
+    }
+    
+    /* ছবি স্টাইল */
+    .article-image-container,
+    .article-image-container.right-img,
+    .article-image-container.left-img {
+        width: 100%; 
+        float: none;
+        margin: 20px 0;
+    }
+    
+    .message-date {
+        text-align: center;
+    }
+    
+    .article-content p {
+        text-align: left;
+    }
+}
