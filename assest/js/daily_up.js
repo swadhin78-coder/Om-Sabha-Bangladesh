@@ -1,19 +1,51 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // ... (আপনার অন্যান্য DOMContentLoaded লজিক যেমন, মোবাইল মেনু টগল, ডোনেট বাটন ইত্যাদি) ...
+    
+    // --- ১. মোবাইল মেনু টগল লজিক (3 ডট/হ্যাবার্গার আইকন) ---
+    const menuToggle = document.querySelector('.menu-toggle');
+    const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+    const closeBtn = document.querySelector('.close-btn');
 
-    // --- প্রতিদিনের বার্তা (Daily Message) পেজের লজিক ---
+    // মেনু খোলার ফাংশন
+    function openMenu() {
+        if (mobileMenuOverlay) {
+            mobileMenuOverlay.classList.add('active');
+            document.body.classList.add('no-scroll'); // পেজের স্ক্রল বন্ধ
+        }
+    }
+
+    // মেনু বন্ধ করার ফাংশন
+    function closeMenu() {
+        if (mobileMenuOverlay) {
+            mobileMenuOverlay.classList.remove('active');
+            document.body.classList.remove('no-scroll'); // পেজের স্ক্রল চালু
+        }
+    }
+
+    // ইভেন্ট লিসেনার সেট করা
+    if (menuToggle) {
+        menuToggle.addEventListener('click', openMenu);
+    }
+    if (closeBtn) {
+        closeBtn.addEventListener('click', closeMenu);
+    }
+    const mobileNavLinks = document.querySelectorAll('.mobile-nav a');
+    mobileNavLinks.forEach(link => {
+        link.addEventListener('click', closeMenu);
+    });
+
+    // --- ২. প্রতিদিনের বার্তা (Daily Message) পেজের লজিক ---
     const dailyMessageSections = document.querySelectorAll('.daily-article-section');
     const mainContent = document.getElementById('daily-messages-container');
     
     if (dailyMessageSections.length > 0 && mainContent) {
         
         // বর্তমান তারিখ YYYY-MM-DD ফরম্যাটে তৈরি করা
-        // এখানে বর্তমান সময়: Wednesday, December 10, 2025
         const today = new Date();
         const yyyy = today.getFullYear();
         const mm = String(today.getMonth() + 1).padStart(2, '0'); 
         const dd = String(today.getDate()).padStart(2, '0');
-        const todayDateString = `${yyyy}-${mm}-${dd}`; // যেমন: "2025-12-10"
+        // 🛑 এইখানে কোনো স্থির মান নয়, বর্তমান বছর স্বয়ংক্রিয়ভাবে ব্যবহার করা হচ্ছে।
+        const todayDateString = `${yyyy}-${mm}-${dd}`; 
         
         // CSS ট্রানজিশন ব্যবহার করে সেকশনগুলিকে flex কলামে সাজানোর প্রস্তুতি
         mainContent.style.display = 'flex';
@@ -31,9 +63,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         // ২. সমস্ত সেকশনকে তারিখ অনুযায়ী সাজানো
-        // .today ক্লাস থাকার কারণে CSS order: -1 ব্যবহার করে এটি সবার উপরে চলে আসবে।
-        // বাকি সেকশনগুলি ডিসেন্ডিং (নতুন থেকে পুরোনো) ক্রমে সাজানো হলো
-        
         const sortedSections = Array.from(dailyMessageSections).sort((a, b) => {
             const dateA = new Date(a.getAttribute('data-date'));
             const dateB = new Date(b.getAttribute('data-date'));
@@ -45,19 +74,24 @@ document.addEventListener('DOMContentLoaded', function() {
         const heroSection = document.getElementById('daily-hero');
         
         // heroSection এবং অন্যান্য স্থির কন্টেন্ট বাদ দিয়ে DOM পুনর্বিন্যাস
+        
+        // প্রথমে হিরো সেকশন যোগ করুন (যদি থাকে)
         if (heroSection) {
-             mainContent.appendChild(heroSection); // hero কে প্রথমে রাখুন
+            mainContent.insertBefore(heroSection, mainContent.firstChild);
         }
 
+        // এরপর সাজানো সেকশনগুলো যোগ করুন
         sortedSections.forEach(section => {
-             // নতুন ক্রমানুসারে সেকশনগুলিকে hero এর পরে যুক্ত করা হলো
-             mainContent.appendChild(section); 
+            mainContent.appendChild(section); 
         });
         
-        // hero কে নিশ্চিতভাবে সবার উপরে রাখুন
-         if (heroSection) {
-             mainContent.insertBefore(heroSection, mainContent.firstChild);
-        }
     }
-    // ... (বাকি কোড) ...
+    
+    // --- ৩. ফুটারে বর্তমান বছর আপডেট করা ---
+    const currentYearSpan = document.getElementById('current-year');
+    if (currentYearSpan) {
+        const year = new Date().getFullYear();
+        currentYearSpan.textContent = year;
+    }
+    
 });
