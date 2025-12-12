@@ -1,19 +1,23 @@
 /* ==================================== */
-/* CSS Variables (Theme)       */
+/* CSS Variables (Theme)       */
 /* ==================================== */
 /* এই ভেরিয়েবলগুলো আপনার main style.css থেকে কপি করা উচিত */
 :root {
-    --primary-color: #3f1e00;       /* গাঢ় বাদামী (উদাহরণ) */
-    --secondary-color: #f4e9d7;     /* হালকা ক্রিম (উদাহরণ) */
-    --accent-color: #5d4037;        /* কফি/বাদামী টেক্সট (উদাহরণ) */
-    --highlight-color: #ffb300;     /* উজ্জ্বল কমলা/হলুদ (হাইলাইট) */
+    --primary-color: #3f1e00;
+    /* গাঢ় বাদামী (উদাহরণ) */
+    --secondary-color: #f4e9d7;
+    /* হালকা ক্রিম (উদাহরণ) */
+    --accent-color: #5d4037;
+    /* কফি/বাদামী টেক্সট (উদাহরণ) */
+    --highlight-color: #ffb300;
+    /* উজ্জ্বল কমলা/হলুদ (হাইলাইট) */
     --white: #ffffff;
     --text-color: #333333;
     --shadow-color: rgba(0, 0, 0, 0.1);
 }
 
 /* ==================================== */
-/* Global Reset             */
+/* Global Reset and Body Style             */
 /* ==================================== */
 * {
     box-sizing: border-box;
@@ -22,10 +26,17 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Baloo Da 2', Arial, sans-serif;
+    /* বাংলা ফন্ট যোগ করা হলো */
     line-height: 1.6;
     color: var(--text-color);
     background-color: var(--secondary-color);
+    scroll-behavior: smooth;
+}
+
+/* মোবাইল মেনু খোলার সময় স্ক্রল বন্ধ করতে */
+body.no-scroll {
+    overflow: hidden;
 }
 
 .container {
@@ -42,15 +53,42 @@ body {
     text-align: center;
 }
 
+.bg-secondary {
+    background-color: var(--secondary-color) !important;
+}
 
 /* ==================================== */
-/* Header Style (Minimal for daily-message.html) */
+/* 1. ✨ ওঁ তৎ সৎ মন্ত্র (স্ক্রল করে ভ্যানিশ হবে) */
+/* ==================================== */
+.spiritual-motto {
+    width: 100%;
+    text-align: center;
+
+    /* রঙ ও ফন্ট */
+    background-color: var(--white);
+    color: var(--accent-color);
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    padding: 4px 0;
+
+    /* ভিজ্যুয়াল */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+
+/* ==================================== */
+/* Header Style             */
 /* ==================================== */
 #main-header {
     background-color: var(--primary-color);
     color: var(--white);
     padding: 15px 0;
-    box-shadow: 0 4px 8px var(--shadow-color);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    /* শ্যাডো গাঢ় করা হলো */
+
+    /* 🛑 Sticky Header (মন্ত্রের বার চলে যাওয়ার পর এটি আটকে যাবে) */
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -66,7 +104,8 @@ body {
 }
 
 .logo {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
+    /* ফন্ট সাইজ সামান্য বাড়ানো হলো */
     font-weight: bold;
 }
 
@@ -83,13 +122,79 @@ body {
 }
 
 .menu-toggle {
-    display: none; 
-    font-size: 1.5rem;
+    display: none;
+    font-size: 1.8rem;
+    /* মোবাইল টগল সাইজ বাড়ানো হলো */
     cursor: pointer;
+    z-index: 1001;
+    /* ওভারলে থেকে কম */
 }
 
 /* ==================================== */
-/* Daily Message Page Style     */
+/* 2. মোবাইল মেনু ওভারলে */
+/* ==================================== */
+#mobile-menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0;
+    /* শুরুতে লুকানো থাকবে */
+    background-color: rgba(0, 0, 0, 0.95);
+    z-index: 2000;
+    transition: height 0.5s ease-in-out;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#mobile-menu-overlay.active {
+    height: 100%;
+    /* খোলার সময় পূর্ণ উচ্চতা */
+}
+
+.mobile-nav {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    opacity: 0;
+    /* ট্রানজিশনের জন্য */
+    transition: opacity 0.2s 0.3s;
+    width: 100%;
+}
+
+#mobile-menu-overlay.active .mobile-nav {
+    opacity: 1;
+}
+
+.mobile-nav a {
+    color: var(--white);
+    text-decoration: none;
+    font-size: 1.5rem;
+    padding: 15px;
+    border-bottom: 1px solid var(--accent-color);
+    width: 80%;
+    /* মোবাইল মেনুর লিংকগুলি মাঝখানে আনার জন্য */
+    margin: 5px auto;
+}
+
+.close-btn {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 3rem;
+    color: var(--white);
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 2001;
+}
+
+
+/* ==================================== */
+/* Daily Message Page Style     */
 /* ==================================== */
 
 /* Keyframes for Glow Effect */
@@ -97,9 +202,12 @@ body {
     0% {
         box-shadow: 0 0 10px rgba(255, 179, 0, 0.4);
     }
+
     50% {
-        box-shadow: 0 0 30px rgba(255, 179, 0, 0.8), 0 0 5px rgba(255, 179, 0, 0.6); /* উজ্জ্বল আলো */
+        box-shadow: 0 0 30px rgba(255, 179, 0, 0.8), 0 0 5px rgba(255, 179, 0, 0.6);
+        /* উজ্জ্বল আলো */
     }
+
     100% {
         box-shadow: 0 0 10px rgba(255, 179, 0, 0.4);
     }
@@ -107,7 +215,8 @@ body {
 
 
 .page-content {
-    padding-top: 1px; /* মার্জিন কলাপস প্রতিরোধ */
+    padding-top: 1px;
+    /* মার্জিন কলাপস প্রতিরোধ */
 }
 
 /* Hero Section */
@@ -117,7 +226,7 @@ body {
 }
 
 #daily-hero h1 {
-    color: var(--primary-color); 
+    color: var(--primary-color);
     font-size: 3rem;
     margin-bottom: 10px;
 }
@@ -125,20 +234,17 @@ body {
 /* বার্তার মূল সেকশন স্টাইল */
 .daily-article-section {
     padding: 50px 5%;
-    overflow: hidden; 
+    overflow: hidden;
     border-bottom: 1px solid var(--accent-color);
     transition: all 0.3s ease;
 }
 
-.daily-article-section:nth-child(even) { 
+.daily-article-section:nth-child(even) {
     background-color: var(--secondary-color);
-}
-.daily-article-section:nth-child(odd) {
-    background-color: var(--white);
 }
 
-.daily-article-section.bg-secondary {
-    background-color: var(--secondary-color);
+.daily-article-section:nth-child(odd) {
+    background-color: var(--white);
 }
 
 .daily-article-section:last-child {
@@ -147,14 +253,14 @@ body {
 
 /* --- বর্তমান দিনের বার্তা (JS দ্বারা .today ক্লাস যুক্ত হয়) --- */
 .daily-article-section.today {
-    background-color: var(--white) !important; 
+    background-color: var(--white) !important;
     border: 3px solid var(--highlight-color);
     /* GLOW/PULSE ইফেক্ট */
-    animation: pulseGlow 2.5s infinite ease-in-out; 
-    
-    padding: 60px 5%; 
+    animation: pulseGlow 2.5s infinite ease-in-out;
+
+    padding: 60px 5%;
     margin-bottom: 30px;
-    order: -1; 
+    order: -1;
 }
 
 .daily-article-section.today h2 {
@@ -196,7 +302,7 @@ body {
 
 /* ছবি ধারক */
 .article-image-container {
-    width: 40%; 
+    width: 40%;
     margin: 10px 0;
     border-radius: 10px;
     overflow: hidden;
@@ -224,7 +330,7 @@ body {
 
 
 /* ==================================== */
-/* Footer Style             */
+/* Footer Style             */
 /* ==================================== */
 footer {
     padding: 20px 0;
@@ -236,49 +342,82 @@ footer {
 
 
 /* ==================================== */
-/* Media Queries (Mobile)      */
+/* Media Queries (Mobile)      */
 /* ==================================== */
 @media (max-width: 768px) {
+
+    /* মন্ত্রের মোবাইল স্টাইল */
+    .spiritual-motto {
+        font-size: 1rem;
+        padding: 4px 0;
+    }
+
     /* Header */
     #full-nav {
-        display: none; 
+        display: none;
     }
+
     .menu-toggle {
         display: block;
     }
+
     .logo {
+        font-size: 1.5rem;
+    }
+
+    /* মেনু ওভারলে */
+    .mobile-nav a {
         font-size: 1.3rem;
     }
 
     /* Hero Section */
+    #daily-hero {
+        padding: 40px 5%;
+    }
+
     #daily-hero h1 {
         font-size: 2rem;
     }
-    
+
     /* আর্টিকেল সেকশন */
-    .daily-article-section, .daily-article-section.today {
+    .daily-article-section,
+    .daily-article-section.today {
         padding: 30px 5%;
         margin-bottom: 10px;
-        border: none; 
+        border-left: none;
+        /* মোবাইলে বর্ডার রিমুভ করা হলো */
     }
+
     .daily-article-section.today {
+        padding: 40px 5%;
+        /* বর্তমান বার্তার প্যাডিং একটু বাড়ানো হলো */
         margin-bottom: 20px;
+        /* মোবাইলে গ্লো ইফেক্ট হালকা রাখা হলো */
+        animation: pulseGlow 3s infinite ease-in-out;
     }
-    
+
+    .daily-article-section.today h2 {
+        font-size: 1.3rem;
+    }
+
+
     /* ছবি স্টাইল */
     .article-image-container,
     .article-image-container.right-img,
     .article-image-container.left-img {
-        width: 100%; 
+        width: 100%;
         float: none;
         margin: 20px 0;
     }
-    
+
     .message-date {
-        text-align: center;
-    }
-    
-    .article-content p {
         text-align: left;
+        /* মোবাইলে তারিখ বামদিকে/সাধারণ করা হলো */
+        padding-right: 0;
+    }
+
+    .article-content p {
+        text-align: justify;
+        /* মোবাইলেও জাস্টিফাই রাখা হলো */
     }
 }
