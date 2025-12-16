@@ -169,57 +169,150 @@ body.no-scroll { overflow: hidden; }
     border-radius: 2px;
 }
 
-/* --- স্লাইডার সেকশন --- */
-.slider-section { 
-    position: relative; 
-    max-width: 100%; 
-    margin: auto; 
-    overflow: hidden; 
-    height: 70vh; /* ডেস্কটপে উচ্চতা */
+/* ==================================== */
+/* 🖼️ স্লাইডার সেকশন স্টাইল (চূড়ান্ত সংশোধন) */
+/* ==================================== */
+.slider-section {
+    position: relative;
+    max-width: 100%;
+    margin: auto;
+    overflow: hidden;
+    height: 70vh;
+    /* ডেস্কটপে উচ্চতা */
+    padding-bottom: 0;
+    /* 🛑 Padding-bottom 0 করা হলো */
 }
 
-.slider-container { 
-    position: relative; 
-    width: 100%; 
-    height: 100%; 
+.slider-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
 }
 
-.slide { 
-    display: none; 
-    width: 100%; 
-    height: 100%; 
-    position: absolute; 
-    top: 0; 
-    left: 0; 
-    background-color: #000; /* ছবির আকৃতি না মিললে কালো পটভূমি */
+.slide {
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #000;
 }
 
-.slide img { 
-    width: 100%; 
-    height: 100%; 
-    object-fit: contain; /* ছবির কোনো অংশ ক্রপ হবে না */
+.slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
+/* 1. ক্যাপশন: এখন কালো ব্যানারের মধ্যেই থাকবে */
 .slide-caption {
-    position: absolute; bottom: 0; width: 100%; padding: 25px 20px;
-    background-color: rgba(0, 0, 0, 0.65); color: var(--white);
-    font-size: 1.6rem; text-align: center; font-weight: 600;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 25px 20px;
+    background-color: rgba(0, 0, 0, 0.65);
+    color: var(--white);
+    font-size: 1.6rem;
+    text-align: center;
+    font-weight: 600;
+    z-index: 60;
 }
-.prev, .next {
-    cursor: pointer; position: absolute; top: 50%; width: auto; padding: 20px;
-    margin-top: -22px; color: rgb(153, 4, 4); font-weight: bold; font-size: 20px;
-    transition: background-color 0.3s ease; user-select: none;
-    background-color: rgba(0,0,0,0.5); z-index: 50;
-}
-.next { right: 0; }
-.prev:hover, .next:hover { background-color: rgba(0,0,0,0.8); }
 
-.slider-dots {
-    width: 100%; text-align: center; padding: 10px 0;
-    position: absolute; bottom: 0; z-index: 100;
+.prev,
+.next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    padding: 20px;
+    margin-top: -22px;
+    color: var(--highlight-color);
+    font-weight: bold;
+    font-size: 20px;
+    transition: background-color 0.3s ease;
+    user-select: none;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 70;
+    border-radius: 0 3px 3px 0;
 }
-.dot { cursor: pointer; height: 15px; width: 15px; margin: 0 2px; background-color: #bbb; border-radius: 50%; display: inline-block; transition: background-color 0.6s ease; }
-.active-dot, .dot:hover { background-color: #d3d62a; }
+
+.next {
+    right: 0;
+    border-radius: 3px 0 0 3px;
+}
+
+.prev:hover,
+.next:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* 2. ডট: এখন ক্যাপশনের ঠিক উপরে, কালো ব্যানারের মধ্যেই থাকবে */
+.slider-dots {
+    width: 100%;
+    text-align: center;
+    padding: 5px 0;
+    position: absolute;
+    /* 🛑 bottom: ক্যাপশনের প্যাডিং এর ওপর নির্ভর করবে */
+    bottom: 80px;
+    /* (ক্যাপশনের bottom padding ~25px + top padding ~25px + ডটের নিজের উচ্চতা) */
+    z-index: 100;
+    background-color: transparent;
+    /* ব্যাকগ্রাউন্ড সরিয়ে দেওয়া হলো */
+}
+
+.dot {
+    cursor: pointer;
+    height: 10px;
+    width: 10px;
+    margin: 0 3px;
+    /* দূরত্ব ৩px রাখা হলো */
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.6s ease;
+}
+
+.active-dot,
+.dot:hover {
+    background-color: var(--highlight-color);
+}
+
+
+/* ==================================== */
+/* Media Queries (Mobile Fix) */
+/* ==================================== */
+@media (max-width: 768px) {
+
+    .slider-section {
+        height: 50vh;
+        /* মোবাইলে উচ্চতা কমানো হলো */
+        padding-bottom: 0;
+    }
+
+    /* 3. মোবাইলের জন্য ক্যাপশনের ফন্ট ও প্যাডিং কমানো */
+    .slide-caption {
+        font-size: 1.1rem;
+        padding: 15px 10px;
+    }
+
+    /* 🛑 মোবাইলের জন্য ডটগুলিকে কালো ব্যানারের মধ্যে আনা */
+    .slider-dots {
+        bottom: 45px;
+        /* 🛑 মোবাইলে ক্যাপশনের প্যাডিং কম হওয়ায় এই মান কমানো হলো */
+        padding: 3px 0;
+    }
+
+    .dot {
+        margin: 0 3px;
+    }
+
+    .prev,
+    .next {
+        padding: 10px 15px;
+        font-size: 16px;
+    }
+}
 
 
 /* ==================================== */
@@ -725,4 +818,94 @@ footer { background: var(--primary-color); color: var(--secondary-color); text-a
         font-size: 0.9rem;
     }
 }
+
+
+/* ==================================== */
+/* 🖼️ গুরু পরম্পরা সেকশন স্টাইল (সংশোধিত) */
+/* ==================================== */
+#guru-section {
+    background-color: var(--secondary-color);
+    padding: 50px 0;
+    border-top: 5px double var(--highlight-color);
+    border-bottom: 5px double var(--highlight-color);
+}
+
+.guru-image-frame {
+    max-width: 950px;
+    /* সর্বাধিক চওড়া */
+    margin: 0 auto;
+    position: relative;
+
+    /* 1. ছবির অংশ */
+    padding: 15px;
+    /* ফ্রেমের ভিতরের প্যাডিং */
+    background-color: var(--primary-color);
+    /* ফ্রেমের ভিতরের গাঢ় রঙ */
+    border-radius: 8px;
+
+    /* 2. মার্জিত ফ্রেম শ্যাডো */
+    box-shadow:
+        0 0 0 5px var(--white),
+        /* সাদা সরু ইনসেট বর্ডার */
+        0 0 0 10px var(--accent-color),
+        /* মাঝের বর্ডার */
+        0 15px 30px rgba(0, 0, 0, 0.4);
+    /* গভীর শ্যাডো */
+}
+
+.guru-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 4px;
+    /* ছবির কোণে সামান্য বাঁক */
+    transition: transform 0.3s ease;
+}
+
+/* 3. লেখাটিকে ছবির নিচে ব্যানার হিসেবে রাখা */
+.guru-title {
+    position: static;
+
+    /* ব্যাকগ্রাউন্ড ব্যানার */
+    width: 100%;
+    background-color: white;
+    /* গাঢ় ব্যাকগ্রাউন্ড (যেমন: #3f1e00) */
+    color: var(--white);
+    /* 🛑 লেখা এখন সাদা হবে */
+    text-align: center;
+
+    /* ফন্ট ও প্যাডিং */
+    font-size: 2rem;
+    font-weight: 700;
+    padding: 15px 0;
+    margin-top: 15px;
+    /* ছবি থেকে দূরত্ব */
+    border-radius: 4px;
+    letter-spacing: 2px;
+    /* সাদা লেখার নিচে সামান্য গাঢ় শ্যাডো এটিকে আরও পরিষ্কার করে তুলবে */
+    text-shadow: 1px 1px 3px rgba(250, 250, 250, 0.8);
+}
+
+
+/* মিডিয়া কোয়েরি: মোবাইলের জন্য ফন্ট ছোট করা */
+@media (max-width: 768px) {
+    #guru-section {
+        padding: 50px 15px;
+    }
+
+    .guru-image-frame {
+        padding: 10px;
+        box-shadow:
+            0 0 0 3px var(--white),
+            0 0 0 6px var(--accent-color),
+            0 10px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .guru-title {
+        font-size: 1.5rem;
+        padding: 10px 0;
+        margin-top: 10px;
+    }
+}
+
 
